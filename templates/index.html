@@ -15,5 +15,117 @@
             {% endif %}
         {% endfor %}
     </ul>
+
+    <h2>Cadastrando alunos</h2>
+<form action="/create_aluno" method="POST">
+	<label>Nome: </label>
+	<input type="text" name="nome_aluno" required>
+	
+	<label>Frequencia: </label>
+	<input type="text" name="frequencia" required>
+	
+	<button type="submit">Cadastrar aluno</button>
+</form>
+<!--Pensar nessa logica das diciplinas e notas-->
+<h2>Cadastrar Disciplina</h2>
+<form action="/create_disciplina" method="POST">
+	<label>Nome: </label>
+	<input type="text" name="nome_disciplina" required>
+	
+	<button type="submit">Cadastrar disciplina</button>
+</form>
+
+<!-- SEÇÃO DE CADASTRO DE NOTAS -->
+    <div class="bg-indigo-50 p-6 rounded-lg shadow-inner mb-8">
+        <h2 class="text-2xl font-semibold text-indigo-800 mb-4 border-b pb-2">Cadastrar Nota (Alunos & Disciplinas)</h2>
+        <form action="/create_nota" method="POST" class="space-y-4">
+            
+            <!-- Select Alunos -->
+            <div class="flex flex-col">
+                <label for="aluno_id" class="text-sm font-medium text-gray-700 mb-1">Selecione o Aluno:</label>
+                <select name="aluno_id" id="aluno_id" required class="p-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+                 <option value="">Selecione</option>
+                    {% for aluno in alunos %}
+                        <!-- O value é o ID (alu_id), o texto visível é o nome -->
+                        <option value="{{ aluno.alu_id }}">{{ aluno.alu_nome }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Select Disciplinas -->
+            <div class="flex flex-col">
+                <label for="disciplina_id" class="text-sm font-medium text-gray-700 mb-1">Selecione a Disciplina:</label>
+                <select name="disciplina_id" id="disciplina_id" required 
+                        class="p-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+                    <option value="">Selecione</option>
+                    {% for disciplina in disciplinas %}
+                        <!-- O value é o ID (dis_id), o texto visível é o nome -->
+                        <option value="{{ disciplina.dis_id }}">{{ disciplina.dis_nome }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Input Valor da Nota -->
+            <div class="flex flex-col">
+                <label for="nota_valor" class="text-sm font-medium text-gray-700 mb-1">Valor da Nota (0.0 a 10.0):</label>
+                <input type="number" step="0.1" name="nota_valor" id="nota_valor" required min="0" 
+                       class="p-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+            </div>
+            
+            <button type="submit" class="w-full bg-indigo-600 text-white p-2 rounded-lg hover:bg-indigo-700 transition duration-150">
+                Registrar Nota
+            </button>
+        </form>
+    </div>
+
+    <!-- VISUALIZAÇÃO DE NOTAS CADASTRADAS -->
+    <h2 class="text-2xl font-semibold text-gray-800 mb-4 border-b pb-2">Notas Registradas</h2>
+    <div class="overflow-x-auto">
+        <table class="min-w-full bg-white rounded-lg shadow-md">
+            <thead>
+                <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                    <th class="py-3 px-6 text-left">Aluno</th>
+                    <th class="py-3 px-6 text-left">Disciplina</th>
+                    <th class="py-3 px-6 text-center">Nota</th>
+                </tr>
+            </thead>
+            <tbody class="text-gray-600 text-sm font-light">
+                {% for nota in notas %}
+                <tr class="border-b border-gray-200 hover:bg-gray-100">
+                    <!-- Acesso usando a relação definida no modelo: nota.aluno.alu_nome -->
+                    <td class="py-3 px-6 text-left whitespace-nowrap">{{ nota.aluno.alu_nome }}</td>
+                    <td class="py-3 px-6 text-left">{{ nota.disciplina.dis_nome }}</td>
+                    <td class="py-3 px-6 text-center font-bold">{{ nota.not_valor }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="3" class="py-3 px-6 text-center">Nenhuma nota registrada ainda.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+            <!-- Exibição de Disciplinas -->
+            <h4 class="text-lg font-semibold mt-6 text-yellow-700">Disciplinas Cadastradas:</h4>
+            <ul class="list-disc pl-5 mt-2 space-y-1">
+                {% for disciplina in disciplinas %}
+                <li class="bg-white p-2 rounded-md shadow-sm">{{ disciplina.dis_nome }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+</div>
+
+<!--Botao para excluir
+<form action="/delete_aluno/{{ alu_id }}" method="POST">
+<button type="submit">Excluir<button>
+</form>
+Botao para atualizar
+<form action="/update_aluno/{{ alu_id }}" method="POST">
+<button type="submit">Atualizar</button> 
+-->
+</form>
 </body>
 </html>
