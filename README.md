@@ -18,6 +18,9 @@ Para rodar este projeto localmente, siga os passos abaixo:
   
         python app.py
   </li>
+  <li>
+    O sistema estará acessível em http://127.0.0.1:5153/.
+  </li>
 </ol>
 
 ## Visão Geral
@@ -61,5 +64,5 @@ O sistema é dividido em três módulos principais:
 
 
 
-O sistema estará acessível em http://127.0.0.1:5153/.
+
 
